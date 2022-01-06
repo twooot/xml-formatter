@@ -128,6 +128,8 @@ function processElementNode(node, state, preserveSpace) {
             if (containsTextNodes && (!containsNonTextNodes || !containsTextNodesWithLineBreaks)) {
                 nodePreserveSpace = true;
             }
+        } else {
+            nodePreserveSpace = nodePreserveSpace || state.options.nodePreserveSpace;
         }
 
         node.children.forEach(function(child) {
