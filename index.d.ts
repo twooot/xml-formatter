@@ -2,7 +2,7 @@ type FormatOptions = {
     indentation?: string;
     filter?: (node: any) => boolean;
     stripComments?: boolean;
-    collapseContent?: boolean;
+    collapseContent?: (node: any) => boolean;
     lineSeparator?: string;
     whiteSpaceAtEndOfSelfclosingTag?: boolean;
 }

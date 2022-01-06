@@ -2,7 +2,7 @@
  * @typedef {Object} XMLFormatterOptions
  *  @property {String} [indentation='    '] The value used for indentation
  *  @property {function(node): boolean} [filter] Return false to exclude the node.
- *  @property {Boolean} [collapseContent=false] True to keep content in the same line as the element. Only works if element contains at least one text node
+ *  @property {function(node): boolean} [collapseContent] True to keep content in the same line as the element. Only works if element contains at least one text node
  *  @property {String} [lineSeparator='\r\n'] The line separator to use
  *  @property {String} [whiteSpaceAtEndOfSelfclosingTag=false] to either end ad self closing tag with `<tag/>` or `<tag />`
  */
@@ -101,7 +101,7 @@ function processElementNode(node, state, preserveSpace) {
 
         let nodePreserveSpace = node.attributes['xml:space'] === 'preserve';
 
-        if (!nodePreserveSpace && state.options.collapseContent) {
+        if (!nodePreserveSpace && state.options.collapseContent(node)) {
             let containsTextNodes = false;
             let containsTextNodesWithLineBreaks = false;
             let containsNonTextNodes = false;
@@ -179,7 +179,7 @@ function processProcessingIntruction(node, state) {
  */
 function format(xml, options = {}) {
     options.indentation = 'indentation' in options ? options.indentation : '    ';
-    options.collapseContent = options.collapseContent === true;
+    options.collapseContent = options.collapseContent;
     options.lineSeparator = 'lineSeparator' in options ? options.lineSeparator : '\r\n';
     options.whiteSpaceAtEndOfSelfclosingTag = !!options.whiteSpaceAtEndOfSelfclosingTag;
 
